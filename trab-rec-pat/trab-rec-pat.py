@@ -57,6 +57,10 @@ plt.xlabel('Mes / UF')
 plt.ylabel('Valor')
 plt.show()
 
+# Agrupar "Mercadoria grupo" por "Mes"
+
+# Agrupar "Mercadoria grupo" por "UF da entrega"
+
 # Agrupar peso por "Mes" e "Mercadoria grupo"
 
 # Agrupar valor por "Mes" e "Mercadoria grupo"
