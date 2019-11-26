@@ -37,12 +37,26 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # plt.xlabel('Estados Entrega')
 # plt.show()
 
-# Agrupar os valores por "Mes" e "UF da entrega"
+# Agrupar peso por "Mes" e "UF da entrega"
+# df['date'] = pd.to_datetime(df['Data emissão'])
+# ax1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Peso carregado"].agg('sum').plot(color='blue', grid=True, label='Peso', kind="bar")
+# plt.ticklabel_format(style='plain', axis='y')
+# plt.grid('on', which='minor', axis='x')
+# plt.grid('off', which='major', axis='x')
+# plt.xlabel('Mes / UF')
+# plt.ylabel('Peso')
+# plt.show()
+
+# Agrupar valor por "Mes" e "UF da entrega"
 df['date'] = pd.to_datetime(df['Data emissão'])
-ax1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Peso carregado"].agg('sum').plot(color='blue', grid=True, label='Peso', kind="bar")
+ax1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').plot(color='blue', grid=True, label='Peso', kind="bar")
 plt.ticklabel_format(style='plain', axis='y')
 plt.grid('on', which='minor', axis='x')
 plt.grid('off', which='major', axis='x')
 plt.xlabel('Mes / UF')
-plt.ylabel('Peso')
+plt.ylabel('Valor')
 plt.show()
+
+# Agrupar peso por "Mes" e "Mercadoria grupo"
+
+# Agrupar valor por "Mes" e "Mercadoria grupo"
