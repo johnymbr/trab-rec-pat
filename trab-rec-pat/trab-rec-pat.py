@@ -191,3 +191,10 @@ plt.grid('off', which='major', axis='x')
 plt.xlabel('Mes')
 plt.title('GRÃOS')
 plt.show()
+
+# mapa de calor entre duas colunas
+
+# pedagio por grupo de mercadoria
+
+# mapa de calor entre coleta x entrega x pedagio
+
