@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as tkr
+import seaborn as sns
 
 plt.style.use('ggplot')
 pd.options.display.float_format = '{:.2f}'.format
@@ -62,7 +64,7 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # df.groupby([df['date'].dt.strftime('%m')])["Mercadoria grupo"].value_counts().plot(color='blue', grid=True, label='Peso')
 # plt.ticklabel_format(style='plain', axis='y')
 # plt.grid('on', which='minor', axis='x')
-# plt.grid('off', which='major', axis='x')
+# plt.grid('off', which='major', import matplotlib.ticker as tkraxis='x')
 # plt.xlabel('Mes')
 # plt.ylabel('Qtde Grupo Mercadoria')
 # plt.show()
@@ -174,27 +176,36 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # plt.show()
 
 # Agrupar valor por "Mes" - Grupo Grãos
-df['date'] = pd.to_datetime(df['Data emissão'])
-ax1 = df[df['Mercadoria grupo'] == 'GRÃOS'].groupby([df['date'].dt.strftime('%m')])["Total do conhec."].agg('sum').plot(color='blue', grid=True, label='Valor', kind="bar")
-ax2 = df[df['Mercadoria grupo'] == 'GRÃOS'].groupby([df['date'].dt.strftime('%m')])["Peso carregado"].agg('sum').plot(color='red', secondary_y=True, label='Peso')
-
-ax1.legend(loc=1)
-ax1.ticklabel_format(style='plain', axis='y')
-ax1.set_ylabel('Valor')
-ax1.set_xlabel('Mes')
-ax2.legend(loc=2)
-ax2.ticklabel_format(style='plain', axis='y')
-ax2.set_ylabel('Peso')
-
-plt.grid('on', which='minor', axis='x')
-plt.grid('off', which='major', axis='x')
-plt.xlabel('Mes')
-plt.title('GRÃOS')
-plt.show()
+# df['date'] = pd.to_datetime(df['Data emissão'])
+# ax1 = df[df['Mercadoria grupo'] == 'GRÃOS'].groupby([df['date'].dt.strftime('%m')])["Total do conhec."].agg('sum').plot(color='blue', grid=True, label='Valor', kind="bar")
+# ax2 = df[df['Mercadoria grupo'] == 'GRÃOS'].groupby([df['date'].dt.strftime('%m')])["Peso carregado"].agg('sum').plot(color='red', secondary_y=True, label='Peso')
+#
+# ax1.legend(loc=1)
+# ax1.ticklabel_format(style='plain', axis='y')
+# ax1.set_ylabel('Valor')
+# ax1.set_xlabel('Mes')
+# ax2.legend(loc=2)
+# ax2.ticklabel_format(style='plain', axis='y')
+# ax2.set_ylabel('Peso')
+#
+# plt.grid('on', which='minor', axis='x')
+# plt.grid('off', which='major', axis='x')
+# plt.xlabel('Mes')
+# plt.title('GRÃOS')
+# plt.show()
 
 # mapa de calor entre duas colunas
+df['date'] = pd.to_datetime(df['Data emissão'])
+df1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').reset_index()
 
+piv = pd.pivot_table(df1, values='Total do conhec.', index=['date'], columns='UF da entrega', fill_value=0)
+
+formatter = tkr.ScalarFormatter(useMathText=True)
+formatter.set_scientific(False)
+
+sns.heatmap(piv, annot=True, cmap='Blues', fmt='.8g', cbar_kws={'format': formatter})
+
+plt.show()
 # pedagio por grupo de mercadoria
 
 # mapa de calor entre coleta x entrega x pedagio
-
