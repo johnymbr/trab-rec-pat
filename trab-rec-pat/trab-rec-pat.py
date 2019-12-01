@@ -7,7 +7,7 @@ import seaborn as sns
 plt.style.use('ggplot')
 pd.options.display.float_format = '{:.2f}'.format
 
-df = pd.read_csv('cte2018.csv', sep=';')
+df = pd.read_csv('cte2018.csv', sep=';', decimal=',')
 
 # Agrupar por "Mercadoria grupo"
 # df["Mercadoria grupo"].value_counts().plot.barh()
@@ -20,7 +20,7 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
 # plt.xlabel('Meses')
-# plt.ylabel('Valores')
+# plt.ylabel('Valores (R$)')
 # plt.show()
 
 # Agrupar os valores por "UF da entrega"
@@ -29,34 +29,14 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Peso')
+# ax1.set_ylabel('Peso (kg)')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Valor')
+# ax2.set_ylabel('Valor (R$)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
 # plt.xlabel('Estados Entrega')
-# plt.show()
-
-# Agrupar peso por "Mes" e "UF da entrega"
-# df['date'] = pd.to_datetime(df['Data emissão'])
-# ax1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Peso carregado"].agg('sum').plot(color='blue', grid=True, label='Peso', kind="bar")
-# plt.ticklabel_format(style='plain', axis='y')
-# plt.grid('on', which='minor', axis='x')
-# plt.grid('off', which='major', axis='x')
-# plt.xlabel('Mes / UF')
-# plt.ylabel('Peso')
-# plt.show()
-
-# Agrupar valor por "Mes" e "UF da entrega"
-# df['date'] = pd.to_datetime(df['Data emissão'])
-# ax1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').plot(color='blue', grid=True, label='Peso', kind="bar")
-# plt.ticklabel_format(style='plain', axis='y')
-# plt.grid('on', which='minor', axis='x')
-# plt.grid('off', which='major', axis='x')
-# plt.xlabel('Mes / UF')
-# plt.ylabel('Valor')
 # plt.show()
 
 # Agrupar "Mercadoria grupo" por "Mes"
@@ -68,14 +48,26 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # plt.xlabel('Mes')
 # plt.ylabel('Qtde Grupo Mercadoria')
 # plt.show()
+df['date'] = pd.to_datetime(df['Data emissão'])
+df['date'] = df['date'].dt.strftime('%m')
+piv = pd.pivot_table(df, index=['date'], columns=['Mercadoria grupo'], aggfunc='size', fill_value=0)
+
+formatter = tkr.ScalarFormatter(useMathText=True)
+formatter.set_scientific(False)
+
+sns.heatmap(piv, annot=True, annot_kws={"size": 8}, cmap='Blues', fmt='.12g', cbar_kws={'format': formatter})
+
+plt.xticks(fontsize=6, rotation=45)
+plt.show()
 
 # Agrupar "Mercadoria grupo" por "UF da entrega"
-# ax = df.groupby(['UF da entrega'])["Mercadoria grupo"].value_counts().plot(color='blue', grid=True, label='Peso', kind="bar")
-# plt.ticklabel_format(style='plain', axis='y')
-# plt.grid('on', which='minor', axis='x')
-# plt.grid('off', which='major', axis='x')
-# plt.xlabel('UF')
-# plt.ylabel('Qtde Grupo Mercadoria')
+# piv = pd.pivot_table(df, index=['UF da entrega'], columns=['Mercadoria grupo'], aggfunc='size', fill_value=0)
+#
+# formatter = tkr.ScalarFormatter(useMathText=True)
+# formatter.set_scientific(False)
+#
+# sns.heatmap(piv, annot=True, annot_kws={"size": 8}, cmap='Blues', fmt='.12g', cbar_kws={'format': formatter})
+#
 # plt.xticks(fontsize=6, rotation=45)
 # plt.show()
 
@@ -194,18 +186,42 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # plt.title('GRÃOS')
 # plt.show()
 
-# mapa de calor entre duas colunas
-df['date'] = pd.to_datetime(df['Data emissão'])
-df1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').reset_index()
+# mapa de calor entre Mes/UF/Valor(R$)
+# df['date'] = pd.to_datetime(df['Data emissão'])
+# df1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').reset_index()
+#
+# piv = pd.pivot_table(df1, values='Total do conhec.', index=['date'], columns=['UF da entrega'], fill_value=0)
+#
+# formatter = tkr.ScalarFormatter(useMathText=True)
+# formatter.set_scientific(False)
+#
+# sns.heatmap(piv, annot=True, cmap='Blues', fmt='.8g', cbar_kws={'format': formatter})
+#
+# plt.show()
 
-piv = pd.pivot_table(df1, values='Total do conhec.', index=['date'], columns='UF da entrega', fill_value=0)
+# mapa de calor entre Mes/UF/Peso(kg)
+# df['date'] = pd.to_datetime(df['Data emissão'])
+# df1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Peso carregado"].agg('sum').reset_index()
+#
+# piv = pd.pivot_table(df1, values='Peso carregado', index=['date'], columns=['UF da entrega'], fill_value=0)
+#
+# formatter = tkr.ScalarFormatter(useMathText=True)
+# formatter.set_scientific(False)
+#
+# sns.heatmap(piv, annot=True, annot_kws={"size": 6}, cmap='Blues', fmt='.12g', cbar_kws={'format': formatter})
+#
+# plt.show()
 
-formatter = tkr.ScalarFormatter(useMathText=True)
-formatter.set_scientific(False)
-
-sns.heatmap(piv, annot=True, cmap='Blues', fmt='.8g', cbar_kws={'format': formatter})
-
-plt.show()
 # pedagio por grupo de mercadoria
 
 # mapa de calor entre coleta x entrega x pedagio
+# df1 = df.groupby(['UF da coleta', 'UF da entrega'])['Pedágio'].agg('sum').reset_index()
+#
+# piv = pd.pivot_table(df1, values='Pedágio', index=['UF da coleta'], columns=['UF da entrega'], fill_value=0)
+#
+# formatter = tkr.ScalarFormatter(useMathText=True)
+# formatter.set_scientific(False)
+#
+# sns.heatmap(piv, annot=True, annot_kws={"size": 8}, cmap='Blues', fmt='.12g', cbar_kws={'format': formatter})
+#
+# plt.show()
