@@ -86,11 +86,11 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Valor')
+# ax1.set_ylabel('Valor (R$)')
 # ax1.set_xlabel('Mes')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Peso')
+# ax2.set_ylabel('Peso (kg)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
@@ -105,11 +105,11 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Valor')
+# ax1.set_ylabel('Valor (R$)')
 # ax1.set_xlabel('Mes')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Peso')
+# ax2.set_ylabel('Peso (kg)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
@@ -124,11 +124,11 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Valor')
+# ax1.set_ylabel('Valor (R$)')
 # ax1.set_xlabel('Mes')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Peso')
+# ax2.set_ylabel('Peso (kg)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
@@ -144,11 +144,11 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Valor')
+# ax1.set_ylabel('Valor (R$)')
 # ax1.set_xlabel('Mes')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Peso')
+# ax2.set_ylabel('Peso (kg)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
@@ -163,11 +163,11 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Valor')
+# ax1.set_ylabel('Valor (R$)')
 # ax1.set_xlabel('Mes')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Peso')
+# ax2.set_ylabel('Peso (kg)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
@@ -182,11 +182,11 @@ df = pd.read_csv('cte2018.csv', sep=';')
 #
 # ax1.legend(loc=1)
 # ax1.ticklabel_format(style='plain', axis='y')
-# ax1.set_ylabel('Valor')
+# ax1.set_ylabel('Valor (R$)')
 # ax1.set_xlabel('Mes')
 # ax2.legend(loc=2)
 # ax2.ticklabel_format(style='plain', axis='y')
-# ax2.set_ylabel('Peso')
+# ax2.set_ylabel('Peso (kg)')
 #
 # plt.grid('on', which='minor', axis='x')
 # plt.grid('off', which='major', axis='x')
@@ -195,17 +195,17 @@ df = pd.read_csv('cte2018.csv', sep=';')
 # plt.show()
 
 # mapa de calor entre duas colunas
-df['date'] = pd.to_datetime(df['Data emissão'])
-df1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').reset_index()
-
-piv = pd.pivot_table(df1, values='Total do conhec.', index=['date'], columns='UF da entrega', fill_value=0)
-
-formatter = tkr.ScalarFormatter(useMathText=True)
-formatter.set_scientific(False)
-
-sns.heatmap(piv, annot=True, cmap='Blues', fmt='.8g', cbar_kws={'format': formatter})
-
-plt.show()
+# df['date'] = pd.to_datetime(df['Data emissão'])
+# df1 = df.groupby([df['date'].dt.strftime('%m'), "UF da entrega"])["Total do conhec."].agg('sum').reset_index()
+#
+# piv = pd.pivot_table(df1, values='Total do conhec.', index=['date'], columns='UF da entrega', fill_value=0)
+#
+# formatter = tkr.ScalarFormatter(useMathText=True)
+# formatter.set_scientific(False)
+#
+# sns.heatmap(piv, annot=True, cmap='Blues', fmt='.8g', cbar_kws={'format': formatter})
+#
+# plt.show()
 # pedagio por grupo de mercadoria
 
 # mapa de calor entre coleta x entrega x pedagio
